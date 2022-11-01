@@ -1,5 +1,5 @@
 from flask import Flask,request,abort,session,render_template
-
+from registration import *
 from flask_bcrypt import Bcrypt
 from config import ApplicationConfig
 from flask.json import jsonify
@@ -28,9 +28,12 @@ def registrationpreotp():
     email=request.form["usersignupemail"]
     name=request.form["usersignupname"]
     password=request.form["usersignuppassword"]
+    register(name,email,password)
+    return "success"
 
-
-
+@app.route("/login",methods=["POST"])
+def login():
+    
 
 if __name__=="__main__":
     app.run(debug=True)

@@ -1,4 +1,5 @@
 import psycopg2
+
 from psycopg2 import *
 from numpy.random import randint
 
@@ -33,20 +34,20 @@ def register(name,email,password):
         acccheck=check(email)
         if (acccheck>=1):
             print("user already exists")
-            return "user already exists"
+            return ("error:user already exists")
         # otp=randint(10000,999999)
-        # uid=randint(10000,99999)
-        postgres_insert_query = """ INSERT INTO otptab VALUES (%s,%s,%s)"""
-        record_to_insert = (email,password,name)
+        uid=randint(10000,99999)
+        postgres_insert_query = """ INSERT INTO accounts VALUES (%s,%s,%s,%s)"""
+        record_to_insert = (uid,email,password,name)
         cursor.execute(postgres_insert_query, record_to_insert)
 
         connection.commit()
         count = cursor.rowcount
         print(count, "Record inserted successfully into mobile table")
-
+        return ({"success registered succesfully"})
     except (Exception, psycopg2.Error) as error:
         print("Failed to insert record into mobile table", error)
-
+        return ({"error failed to register"})
     finally:
         # closing database connection.
         if connection:
@@ -54,5 +55,5 @@ def register(name,email,password):
             connection.close()
             print("PostgreSQL connection is closed")
 
-register('David Jennicson','djennicson@gmail.com','Pscerve643669')
+
 # check('djennicson@gmail.com')
