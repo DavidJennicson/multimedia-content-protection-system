@@ -1,17 +1,15 @@
 from flask import Flask,request,abort,session,render_template
 from registration import *
-from flask_bcrypt import Bcrypt
-from config import ApplicationConfig
+
+
 from flask.json import jsonify
 
 
 from mailer import emailer
 from cryptor import hasher
 app = Flask(__name__)
-app.config.from_object(ApplicationConfig)
 
 
-bcrypt=Bcrypt(app)
 
 
 
@@ -33,7 +31,7 @@ def registrationpreotp():
 
 @app.route("/login",methods=["POST"])
 def login():
+    return "g"
     
-
 if __name__=="__main__":
     app.run(debug=True)
