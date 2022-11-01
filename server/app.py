@@ -3,9 +3,8 @@ from registration import *
 import psycopg2
 from fetcher import *
 import psycopg2.extras
-
 from flask.json import jsonify
-
+uploadfolder=
 
 from mailer import emailer
 from cryptor import hasher
@@ -40,15 +39,13 @@ def dashboard():
     filedata=fetcharr()
     return render_template('dashboard.html',filedata=filedata)
 
-@app.route("/files",methods=["POST"])
-def filer():
-    if request.method=='POST':
-        print('I AM WORKING')
-        f=request.files["file"]
-        print(f.filename)
-        
-        return "op"
-    return "op"
+
+@app.route("/files",methods=['POST','GET'])
+def fileupload():
+    if request.method=="POST":
+        f=request.files['fileup']
+
+        return "siuuuu"
 
 if __name__=="__main__":
     app.run(debug=True)
