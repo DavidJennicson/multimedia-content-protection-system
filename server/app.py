@@ -1,6 +1,8 @@
 from flask import Flask,request,abort,session,render_template
 from registration import *
-
+import psycopg2
+from fetcher import *
+import psycopg2.extras
 
 from flask.json import jsonify
 
@@ -9,7 +11,7 @@ from mailer import emailer
 from cryptor import hasher
 app = Flask(__name__)
 
-
+conn = psycopg2.connect(dbname="medcrypt", user="postgres", password="Jennicson1", host="localhost")
 
 
 
@@ -32,6 +34,21 @@ def registrationpreotp():
 @app.route("/login",methods=["POST"])
 def login():
     return "g"
-    
+
+@app.route("/dashboard",methods=["POST","GET"])
+def dashboard():
+    filedata=fetcharr()
+    return render_template('dashboard.html',filedata=filedata)
+
+@app.route("/files",methods=["POST"])
+def filer():
+    if request.method=='POST':
+        print('I AM WORKING')
+        f=request.files["file"]
+        print(f.filename)
+        
+        return "op"
+    return "op"
+
 if __name__=="__main__":
     app.run(debug=True)

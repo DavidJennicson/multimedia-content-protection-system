@@ -4,6 +4,7 @@ from psycopg2 import *
 from numpy.random import randint
 
 
+
 def check(email):
     try:
         connection = psycopg2.connect(host="localhost", port=5432, user="postgres", password="Jennicson1",
@@ -44,6 +45,10 @@ def register(name,email,password):
         connection.commit()
         count = cursor.rowcount
         print(count, "Record inserted successfully into mobile table")
+        # cd="""CREATE DATABASE %s"""
+        # cursor.execute(cd,uid)
+        # cursor.execute("""CREATE TABLE files (fileid varchar,filename varchar,filesize varchar,filetype varchar,filedate timestamp)""")
+        # cursor.execute()
         return ({"success registered succesfully"})
     except (Exception, psycopg2.Error) as error:
         print("Failed to insert record into mobile table", error)
