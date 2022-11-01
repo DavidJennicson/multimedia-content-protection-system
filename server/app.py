@@ -17,13 +17,15 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route("/register",methods=["POST"])
+@app.route("/register",methods=["POST","GET"])
 def registrationpreotp():
 
     email=request.json["email"]
     name=request.json["name"]
     password=request.json["password"]
-
+    print(email)
+    print(name)
+    print(password)
     user_exists=Users.query.filter_by(email=email).first() is not None
 
     if user_exists:
@@ -36,27 +38,27 @@ def registrationpreotp():
 
     otpid=Otp.query.filter_by(email=email).order_by(Otp.ctime.desc()).first()
 
-    print("podaaaa")
+
     print(otpid.id)
 
     return jsonify({
-        "id":hasher(otpid.id),
+        "id":otpid.id,
         "otp":otp,
         "email":email
     })
 
-@app.route("/registerform/<id>",methods=["POST","GET"])
-def register_user(id):
-
+@app.route("/sg",methods=["POST","GET"])
+def register_user():
     email=request.json["email"]
     name=request.json["name"]
     password=request.json["password"]
     otp=request.json["otp"]
+    ids=request.json["id"]
     user_exists=Users.query.filter_by(email=email).first() is not None
 
     if user_exists:
         return jsonify({"error":"User already exists"}),409
-    otpcheck=Users.query.filter_by(or_(id=id,otp=otp))
+    otpcheck=Users.query.filter_by(or_(otp=otp,id=ids))
     hashed=bcrypt.generate_password_hash(password)
     newuser=Users(email=email,name=name,password=hashed)
     db.session.add(newuser)
